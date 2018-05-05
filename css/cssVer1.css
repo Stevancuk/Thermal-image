@@ -1,0 +1,123 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+@import url('https://fonts.googleapis.com/css?family=Hind');
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+html {
+	font-family: 'Hind', sans-serif;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+* {
+	box-sizing: content-box;
+}
+
+/* Basic tag styling */
+b {
+	font-weight: 800;
+}
+h1 {
+	font-size: 36px;
+	margin: 0 auto;
+	margin-top: 40px;
+	margin-bottom: 60px;
+	font-weight: 600;
+	text-align: center;
+	letter-spacing: 2px;
+}
+h2 {
+	font-size: 28px;
+	margin: 18px 0px;
+	font-weight: 600;
+}
+h3 {
+	font-size: 24px;
+	margin: 16px 0px;
+	font-weight: 600;
+	text-align: center;
+}
+p {
+    margin: 16px 0px;
+	padding: 0;
+	border: 0;
+	font-size:14px;
+}
+
+
+#inputs-wrapper {
+	width: 600px;
+	margin: 20px auto;
+}
+
+
+
+#output-wrapper {
+	position: relative;
+	width: 600px;
+	height: 500px;
+	margin: 0 auto;
+	margin-top: 50px;
+	/*background-color: #ededed;*/
+}
+#field-canvas {
+	display: block;
+	margin: 0 auto;
+	background-color: #ededed;
+}
+#abs-img-camera {
+	display: none;
+	position: absolute;
+}
+#abs-img-view{
+	display: none;
+	position: absolute;
+}
+
+
+#calcButton {
+	display: block;
+	margin: 20px auto;
+}

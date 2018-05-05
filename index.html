@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+	<title>Thermal image</title>
+	<link rel="stylesheet" href="css/cssVer1.css">
+</head>
+<body>
+	<div id="thermal-main-wrapper">
+
+		<div id="inputs-wrapper">
+
+			<h1> Thermal Image </h1>
+
+			<input type="radio" name="unit" value="inches" checked> Inches<br>
+			<input type="radio" name="unit" value="cm"> Cm<br>
+
+			Distance: <input id="distance" value="1500" type="number" name="fname"><br>
+
+			<button id="calcButton" type="button">Click Me!</button>
+
+			Test input - ANGLE: <input id="angle-input" value="50" type="number" name="fname"><br>
+
+		</div>
+
+		<div id="output-wrapper">
+
+			<img id="abs-img-camera" src="img/camera.jpg" alt="Camera" width="100">
+			<img id="abs-img-view" src="img/view.jpg" alt="Smiley face" width="200">
+
+			<canvas id="field-canvas" width="400" height="500"></canvas>
+
+
+
+
+
+
+
+
+
+		</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+												
+	</div><!-- thermal-main-wrapper -->
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script src="js/jsVer1.js"></script>
+</body>
+</html>
