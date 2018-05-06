@@ -11,10 +11,23 @@ function positionImages() {
     angle = parseInt( $('#angle-input').val() );
     inputValues["wrapperHeight"] = $('#output-wrapper').height();
     inputValues["wrapperWidth"] = $('#output-wrapper').width();
-    inputValues["topImageHeight"] = $('#abs-img-view').height();
-    inputValues["topImageWidth"] = $('#abs-img-view').width();
     inputValues["botImageHeight"] = $('#abs-img-camera').height();
     inputValues["botImageWidth"] = $('#abs-img-camera').width();
+
+    var halfAngle = angle / 2;
+    // calc width of canvas (between 300 and 600px - if we keep height of 300px)
+    var topWidth = 2 * Math.ceil( Math.tan(halfAngle * Math.PI/180) * (inputValues["wrapperHeight"] - inputValues["botImageHeight"]/2 ) ) + 50 + 40 + 40;
+    if (topWidth > 600) { topWidth = 600; }
+    if (topWidth < 300) { topWidth = 300}
+    
+    var canvas = document.getElementById("field-canvas");
+    canvas.width = topWidth;
+
+    // top image gets width betwee two small vertical lines
+    $('#abs-img-view, #white-line-wrapper').css("width", topWidth - 118);
+    $('#abs-img-view').css("max-height", 100);
+    inputValues["topImageHeight"] = $('#abs-img-view').height();
+    inputValues["topImageWidth"] = $('#abs-img-view').width();
     $('#abs-img-view').css({
         "top" : 0,
         "left" : (inputValues.wrapperWidth - inputValues.topImageWidth)/2,
@@ -25,17 +38,21 @@ function positionImages() {
         "left" : (inputValues.wrapperWidth - inputValues.botImageWidth)/2,
         "display" : "block"
     });
-
-    var halfAngle = angle / 2;
-    // calc width of canvas. It cant be more then 600px cause of website width and can't be less then width of top image + 100px
-    var topWidth = 2 * Math.ceil( Math.tan(halfAngle * Math.PI/180) * (inputValues["wrapperHeight"] - inputValues["botImageHeight"]/2 ) ) + 50 + 40 + 40;
-    if (topWidth > 600) { topWidth = 600; }
-    if (topWidth < inputValues.topImageWidth + 100) { topWidth = inputValues.topImageWidth + 100}
-    console.log (topWidth);
-    
-    var canvas = document.getElementById("field-canvas");
-    canvas.width = topWidth;
-
+    $('#white-line-wrapper').css({
+        "top" : 30,
+        "left" : (inputValues.wrapperWidth - inputValues.topImageWidth)/2,
+        "display" : "block"
+    });
+    $('#distance-value-left').css({
+        "top" : (inputValues["topImageHeight"] / 2 + 0.9*inputValues["wrapperHeight"])/2 + 8,
+        "left" : (inputValues["wrapperWidth"] - topWidth)/2 + 5,
+        "display" : "block"
+    });
+    $('#distance-value-right').css({
+        "top" : (inputValues["topImageHeight"] / 2 + 0.9*inputValues["wrapperHeight"])/2 + 8,
+        "right" : (inputValues["wrapperWidth"] - topWidth)/2 + 5,
+        "display" : "block"
+    });
 }
 
 function getInputValues() {
@@ -45,21 +62,31 @@ function getInputValues() {
     console.log(inputValues);
 }
 
-//writes all outputs
-var area;
-function writeOutputsRepayment1() {
+function writeOutputs() {
+    $('#horizont-value').text( `${horizont.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})} ${inputValues.unit}`);
+    $('#distance-value-left, #distance-value-right').text( `${(inputValues.distance).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})} ${inputValues.unit}`);
+    $('#area-value').text ( `${area.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})} ${inputValues.unit}²` );
+    $('#area-value').css({
+        "top" : inputValues["topImageHeight"] + 20,
+        "left" : (inputValues["wrapperWidth"] - $('#area-value').width() ) / 2,
+        "display" : "block"
+    });    
+    $('#horizont-value').css("left", ( inputValues.wrapperWidth - $('#horizont-value').width() )/2);
 }
 
+var area;
+var horizont;
 function calculate() {
-
 
     if ( (!isNaN(inputValues.distance)) && (inputValues.distance != null) ) {
         area = angle / 360 * Math.PI * inputValues.distance * inputValues.distance;
-
+        horizont = 2 * ( inputValues.distance * Math.tan(angle/2  * Math.PI/180) );
+        writeOutputs()
         makeCanvas1();
     }else{
         // MAKE SOME WARNING
     }
+
 }
 
 function makeCanvas1() {
@@ -108,15 +135,11 @@ function makeCanvas1() {
   ctx.moveTo( 50*wFactor+25, 99*hFactor);
   ctx.lineTo( 100*wFactor - 60, inputValues.topImageHeight/2);
 
-  ctx.moveTo( 60, inputValues.topImageHeight/2 - 20 );
-  ctx.lineTo( 60, inputValues.topImageHeight/2 + 20 );
-  ctx.moveTo( 100*wFactor - 60, inputValues.topImageHeight/2 - 20 );
-  ctx.lineTo( 100*wFactor - 60, inputValues.topImageHeight/2 + 20 );
-
-
+  // ctx.moveTo( 60, inputValues.topImageHeight/2 - 20 );
+  // ctx.lineTo( 60, inputValues.topImageHeight/2 + 20 );
+  // ctx.moveTo( 100*wFactor - 60, inputValues.topImageHeight/2 - 20 );
+  // ctx.lineTo( 100*wFactor - 60, inputValues.topImageHeight/2 + 20 );
    ctx.stroke();
-
-
 
   // semi circle
   var inputAngle = angle;
@@ -125,22 +148,12 @@ function makeCanvas1() {
   var angleFactor = 0.08 + (inputAngle - 22) * 0.09 / 38;
   ctx.beginPath();
   ctx.arc( 50*wFactor, 100*hFactor+10, 40 * hFactor, (1.5 - angleFactor) *Math.PI , (1.5 + angleFactor) *Math.PI);
-
-
-
-
   ctx.stroke();
-
 
   //text
   ctx.font = "16px Arial";
   ctx.fillStyle="#000000";  
-  ctx.fillText(`${angle}°`, 48*wFactor, 68*hFactor);
-  ctx.fillText(`${(inputValues.distance).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})} ${inputValues.unit}`, 10, inputValues.topImageHeight/2 + (90*hFactor - inputValues.topImageHeight/2)/2 + 6*hFactor);
-  ctx.fillText(`${(inputValues.distance).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})} ${inputValues.unit}`, 100 * wFactor - 100, inputValues.topImageHeight/2 + (90*hFactor - inputValues.topImageHeight/2)/2 + 6*hFactor);
-  ctx.fillText(`${area.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})} ${inputValues.unit}²`, 41*wFactor, inputValues["topImageHeight"] + 50);
-
-
+  ctx.fillText(`${angle}°`, 48*wFactor, 70*hFactor);
 } // makeCanvas1() ends here
 
 
@@ -187,8 +200,9 @@ $('#calcButton').on("click", function(){
 
 // *****   Click handlers ENDS ******
 
- $(function(){
+
+$(window).on("load", function(){    
     positionImages();
     getInputValues();
     calculate();
- })
+})
