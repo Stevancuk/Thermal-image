@@ -121,6 +121,7 @@ p {
 	top: 20px;
 	left: 200px;
 	z-index: 1001;
+	display: none;
 }
 #left-arrow {
 	float: left;
@@ -176,9 +177,12 @@ p {
 	font-size: 16px;
 	margin: 0px;
 	top: 6px;
+	display: none;
 }
 #distance-value-left, #distance-value-right, #area-value {
 	position: absolute;
 	font-size: 16px;
 	margin: 0px;
+	display: none;
+	color: #FE8F1D;
 }

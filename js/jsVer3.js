@@ -72,19 +72,20 @@ function writeOutputs() {
         "display" : "block"
     });    
     $('#horizont-value').css("left", ( inputValues.wrapperWidth - $('#horizont-value').width() )/2);
+    $('#horizont-value').css("display", "block");
 }
 
 var area;
 var horizont;
 function calculate() {
 
-    if ( (!isNaN(inputValues.distance)) && (inputValues.distance != null) ) {
+    if ( (!isNaN(inputValues.distance)) && (inputValues.distance != null) ) {        
         area = angle / 360 * Math.PI * inputValues.distance * inputValues.distance;
         horizont = 2 * ( inputValues.distance * Math.tan(angle/2  * Math.PI/180) );
         writeOutputs()
         makeCanvas1();
     }else{
-        // MAKE SOME WARNING
+        $('#output-wrapper').css("display","none");
     }
 
 }
@@ -193,7 +194,8 @@ $("#loan_input_1 input, #loan_input_2 input, #loan_input_3 input").on("change", 
 // *****   Click handlers   ******
 
 $('#calcButton').on("click", function(){
-    positionImages();
+  $('#output-wrapper').css("display","block");
+  positionImages();
  	getInputValues();
  	calculate();
 });
